@@ -30,8 +30,9 @@ class Ghee
           #
           class Proxy < ::Ghee::ResourceProxy
 
-              def add(member)
-                connection.put("#{path_prefix}/#{member}").status == 204
+              def add(member, role)
+                prefix = path_prefix.gsub("members", "members")
+                connection.put("#{prefix}/#{member}", role: role).status == 204
               end
 
               def remove(member)
