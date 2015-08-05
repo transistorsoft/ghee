@@ -31,7 +31,7 @@ class Ghee
           class Proxy < ::Ghee::ResourceProxy
 
               def add(member, role)
-                prefix = path_prefix.gsub("members", "members")
+                prefix = path_prefix.gsub("members", "memberships")
                 connection.put("#{prefix}/#{member}", role: role).status == 204
               end
 
