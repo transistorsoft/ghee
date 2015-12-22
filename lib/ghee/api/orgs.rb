@@ -29,15 +29,19 @@ class Ghee
           # enables defining methods on the proxy object
           #
           class Proxy < ::Ghee::ResourceProxy
+            def add(member, role)
+              prefix = path_prefix.gsub("members", "memberships")
+              connection.put("#{prefix}/#{member}", role: role).status == 204
+            end
 
-              def add(member, role)
-                prefix = path_prefix.gsub("members", "memberships")
-                connection.put("#{prefix}/#{member}", role: role).status == 204
-              end
+            def remove(member)
+              connection.delete("#{path_prefix}/#{member}").status == 204
+            end
 
-              def remove(member)
-                connection.delete("#{path_prefix}/#{member}").status == 204
-              end
+            def check?(username=nil)
+              prefix = username ? File.join(path_prefix, username) : path_prefix
+              connection.get(prefix).status == 204
+            end
           end
         end
 
